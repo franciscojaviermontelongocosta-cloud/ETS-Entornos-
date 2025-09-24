@@ -1,0 +1,103 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EAFC - Plantilla de jugadores</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>EAFC - Mercado</h1>
+    <input id="search" placeholder="Buscar jugador, club o posición" />
+  </header>
+
+  <main>
+    <section id="players" class="grid"></section>
+  </main>
+
+  <template id="card-template">
+    <article class="card">
+      <img class="photo" alt="foto jugador" />
+      <div class="info">
+        <h3 class="name"></h3>
+        <p class="meta"></p>
+        <p class="price"></p>
+      </div>
+    </article>
+  </template>
+
+  <script>
+// Lista base de jugadores reales o variaciones de nombres reales
+const basePlayers = [
+  {name: "Lionel Messí", club: "Inter Miami", position: "ED", rating: 91},
+  {name: "Cristiano Ronaldu", club: "Al Nassr", position: "DC", rating: 90},
+  {name: "Kylian Mbappé", club: "Paris SG", position: "DC", rating: 92},
+  {name: "Erling Haalund", club: "Manchester City", position: "DC", rating: 91},
+  {name: "Kevin De Brune", club: "Manchester City", position: "MC", rating: 91},
+  {name: "Karim Benzmá", club: "Al Ittihad", position: "DC", rating: 89},
+  {name: "Virgil Van Dijk", club: "Liverpool", position: "DFC", rating: 89},
+  {name: "Luka Modricc", club: "Real Madrid", position: "MC", rating: 88},
+  {name: "Pedrii", club: "FC Barcelona", position: "MC", rating: 86},
+  {name: "Antoine Grizman", club: "Atlético Madrid", position: "DC", rating: 86},
+  {name: "Vinicius Jr.", club: "Real Madrid", position: "EI", rating: 89},
+  {name: "Rodrii", club: "Manchester City", position: "MCD", rating: 89},
+  {name: "Harry Kanee", club: "Bayern Múnich", position: "DC", rating: 90},
+  {name: "Mohamed Salaa", club: "Liverpool", position: "ED", rating: 89},
+  {name: "Robert Lewandowsk", club: "FC Barcelona", position: "DC", rating: 90},
+  {name: "Bruno Fernándes", club: "Manchester United", position: "MCO", rating: 88},
+  {name: "Marcus Rashfordd", club: "Manchester United", position: "EI", rating: 86},
+  {name: "Son Heung-Min", club: "Tottenham", position: "EI", rating: 87},
+  {name: "Ousmane Dembelé", club: "Paris SG", position: "ED", rating: 85},
+  {name: "Bernardo Silvaa", club: "Manchester City", position: "ED", rating: 88}
+];
+
+// Generar hasta 200 jugadores variando basePlayers
+const players = [];
+for (let i=0;i<200;i++){
+  const base = basePlayers[i % basePlayers.length];
+  players.push({
+    name: base.name + (i>=basePlayers.length ? ` ${Math.floor(i/basePlayers.length)}` : ""),
+    club: base.club,
+    position: base.position,
+    rating: base.rating - (i%5) + (i%3),
+    price: Math.round((100 + (i*17)%2000) * 100),
+    img: `https://via.placeholder.com/120?text=${encodeURIComponent(base.name.split(" ")[0])}`
+  });
+}
+
+const container = document.getElementById('players');
+const template = document.getElementById('card-template');
+function formatPrice(c){
+  return c.toLocaleString() + ' Ⓚ';
+}
+function render(list){
+  container.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  for (const p of list){
+    const node = template.content.cloneNode(true);
+    node.querySelector('.photo').src = p.img;
+    node.querySelector('.photo').alt = p.name;
+    node.querySelector('.name').textContent = p.name + ' (' + p.rating + ')';
+    node.querySelector('.meta').textContent = p.club + ' • ' + p.position;
+    node.querySelector('.price').textContent = formatPrice(p.price);
+    frag.appendChild(node);
+  }
+  container.appendChild(frag);
+}
+
+render(players);
+
+const search = document.getElementById('search');
+search.addEventListener('input', ()=>{
+  const q = search.value.trim().toLowerCase();
+  if (!q) return render(players);
+  const filtered = players.filter(p => p.name.toLowerCase().includes(q) || p.club.toLowerCase().includes(q) || p.position.toLowerCase().includes(q));
+  render(filtered);
+});
+  </script>
+</body>
+</html>
+
+

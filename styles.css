@@ -1,0 +1,23 @@
+/* Guarda este bloque en styles.css */
+:root{font-family:Inter,system-ui,Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#e6eef8}
+.site-header{display:flex;gap:12px;align-items:center;padding:18px;background:#081026}
+.site-header h1{margin:0;font-size:18px}
+.site-header input{flex:1;padding:8px;border-radius:8px;border:1px solid #1f2a44;background:#071024;color:inherit}
+main{padding:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.card{background:linear-gradient(180deg,#08131f,#091426);padding:10px;border-radius:10px;display:flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,0.03)}
+.card img.photo{width:72px;height:72px;object-fit:cover;border-radius:6px}
+.card .info{flex:1}
+.card .name{margin:0;font-size:14px}
+.card .meta{margin:4px 0 0;font-size:12px;opacity:0.8}
+.card .price{margin:6px 0 0;font-weight:700}
+
+
+@media (max-width:420px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+
+
+
+/* Nota: copia index.html y styles.css en tu servidor o carpeta local. El script con los jugadores ya está embebido en index.html */
